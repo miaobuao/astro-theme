@@ -1,0 +1,18 @@
+<script is:inline>
+    const mql = window.matchMedia('(prefers-color-scheme: dark)')
+    const isDark = () => getThemePreference() === 'dark'
+
+    function getThemePreference() {
+      if (typeof localStorage !== 'undefined' && localStorage.getItem('theme')) {
+        return localStorage.getItem('theme')
+      }
+      return mql.matches ? 'dark' : 'light'
+    }
+
+    function updateTheme() {
+      document.documentElement.classList[isDark() ? 'add' : 'remove']('dark')
+    }
+    updateTheme()
+
+    mql.addEventListener('change', updateTheme)
+</script>

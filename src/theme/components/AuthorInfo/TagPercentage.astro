@@ -1,0 +1,25 @@
+---
+import { sortBy } from 'lodash-es'
+import { type IPostInfo, aggreateByTag, getTagLink } from '@/theme/lib/post'
+
+export interface Props {
+    posts: IPostInfo[]
+}
+
+const { posts } = Astro.props
+const stats = aggreateByTag(posts)
+const counts = sortBy(Array.from(stats.entries()).map(([k, v]) => [k, v.length] as const), d => d[1]).reverse()
+---
+
+<div class="flex flex-col w-full">
+  {
+    counts.map(([k, v]) => (
+      <a href={getTagLink(k)}>
+        <div class="flex transition items-center gap-x-1 p-1 rounded-btn hover:bg-primary hover:bg-opacity-20">
+          <div class="w-16 text-xs text-center truncate">{k}</div>
+          <progress class="progress flex-1" value={v / posts.length} max="1"></progress>
+        </div>
+      </a>
+    ))
+  }
+</div>

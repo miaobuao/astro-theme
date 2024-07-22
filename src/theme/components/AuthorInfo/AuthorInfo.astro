@@ -1,0 +1,30 @@
+---
+import { getCollection } from 'astro:content'
+import { Avatar } from '../ui/avatar'
+import TagPercentage from './TagPercentage.astro'
+import config from '@/consts'
+import { getSafePostsInfo } from '@/theme/lib/post'
+
+const posts = await getSafePostsInfo(getCollection('blog'))
+---
+
+<div class="flex flex-col items-center gap-3 md:gap-4">
+  <Avatar
+    className="mask mask-squircle w-28 bg-neutral text-neutral-content font-semibold text-3xl"
+    url={config.author.avatar.url}
+    alt={config.author.avatar.alt}
+    client:only="preact"
+  />
+  <div class="flex flex-col items-center gap-1 px-1">
+    <span class="font-semibold break-all">
+      {config.author.name}
+    </span>
+    <span class="text-xs break-all px-1 opacity-80">
+      {config.author.signature}
+    </span>
+  </div>
+
+  <div class="w-full mt-1 md:mt-3">
+    <TagPercentage posts={posts} />
+  </div>
+</div>

@@ -1,0 +1,151 @@
+---
+import type { ClassValue } from 'clsx'
+// import { Icon } from 'astro-icon/components'
+import { LinkButton } from './ui/button'
+import { cn } from '@/theme/lib/utils'
+import { type IPostInfo, getTagLink } from '@/theme/lib/post'
+import { formatDatetime } from '@/theme/lib/date'
+
+export interface Props {
+    info: IPostInfo
+    className?: ClassValue
+}
+
+const { info, className } = Astro.props
+---
+
+<div
+  class={cn(
+    'card bg-base-100 w-full shadow-none border border-slate-200  dark:border-opacity-50 dark:border-slate-600',
+    'block md:hidden',
+    className,
+  )}
+>
+{
+  info.cover && (
+  <figure class="w-full">
+    <img
+      src={info.cover}
+      class="w-full max-h-[150px] object-cover"
+    />
+  </figure>
+  )
+}
+  <div class="card-body py-4 px-5 gap-y-1">
+    <h2 class="card-title break-all">
+      <a
+        href={info.link}
+        class={cn(
+        'transition group hover:text-primary text-xl md:text-2xl w-full',
+        'dark:font-bold dark:hover:text-primary',
+      )}
+      >
+        {info.title}
+        <svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" stroke-width="1.5" class="size-5  stroke-primary transition absolute group-hover:translate-x-1 translate-y-1 inline opacity-0 group-hover:opacity-100">
+          <path stroke-linecap="round" stroke-linejoin="round" d="m8.25 4.5 7.5 7.5-7.5 7.5" />
+        </svg>
+      </a>
+    </h2>
+
+    <!-- tags -->
+    <div class="flex items-center h-full gap-x-2 opacity-80">
+        {
+          info.tags.map(tag => (
+            <LinkButton
+              className="p-0 h-full font-normal text-sm hover:text-primary"
+              href={getTagLink(tag)}
+            >
+              <>#{tag}</>
+            </LinkButton>
+          ))
+        }
+    </div>
+
+    <!-- summary -->
+    {
+      info.description && (
+        <p class="break-all text-lg">
+          {info.description}
+        </p>
+      )
+    }
+
+    <!-- metadata -->
+    <p class="opacity-80 text-sm font-mono">
+      {formatDatetime(info.ctime)}
+      {' · '}
+      {info.reading.words}
+      {' '}
+      Words ·
+      {' '}
+      {info.reading.text}
+    </p>
+  </div>
+</div>
+
+
+<div class="md:block hidden bg-base-100 relative rounded-box border-slate-200 border dark:border-opacity-50 dark:border-slate-600">
+  <div class="flex items-stretch">
+    <div class="flex-1 flex flex-col break-all pb-6 pt-7 px-8 gap-y-5">
+      <a
+        href={info.link}
+        class={cn(
+          'transition group hover:text-primary block font-semibold text-xl md:text-2xl w-full',
+          'before:absolute before:bg-primary before:h-6 before:opacity-0 hover:before:opacity-100 before:left-[-0.1rem] before:rounded-md before:top-8 before:w-1',
+          'dark:font-bold dark:hover:text-primary dark:active:text-[var(--title-active)]',
+        )}
+      >
+        {info.title}
+        <svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" stroke-width="1.5" class="size-5  stroke-primary transition absolute group-hover:translate-x-1 translate-y-1 inline opacity-0 group-hover:opacity-100">
+          <path stroke-linecap="round" stroke-linejoin="round" d="m8.25 4.5 7.5 7.5-7.5 7.5" />
+        </svg>
+      </a>
+
+      <!-- tags -->
+      <div class="flex items-center gap-x-2 opacity-80">
+        {
+          info.tags.map(tag => (
+            <LinkButton
+              className="p-0 h-full font-normal text-sm hover:text-primary"
+              href={getTagLink(tag)}
+            >
+                <>#{tag}</>
+            </LinkButton>
+          ))
+        }
+      </div>
+
+      <!-- summary -->
+      {
+        info.description && (
+          <p class="break-all text-lg">
+            {info.description}
+          </p>
+        )
+      }
+
+      <!-- metadata -->
+      <p class="opacity-80 text-sm font-mono">
+        {formatDatetime(info.ctime)}
+        {' · '}
+        {info.reading.words}
+        {' '}
+        Words ·
+        {' '}
+        {info.reading.text}
+      </p>
+    </div>
+
+    <!-- cover -->
+     {
+      info.cover && (
+        <figure class="w-72">
+          <img
+            src={info.cover}
+            class="h-full object-cover  rounded-r-box"
+          />
+        </figure>
+      )
+     }
+  </div>
+</div>

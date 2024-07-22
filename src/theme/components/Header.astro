@@ -1,0 +1,28 @@
+---
+import type { HTMLAttributes } from 'astro/types'
+import HeaderLink from './HeaderLink.astro'
+import config from '@/consts'
+import { cn } from '@/theme/lib/utils'
+
+type Props = HTMLAttributes<'header'>
+
+const { class: className, ...props } = Astro.props
+---
+
+<div class={cn('bg-base-100 flex flex-row items-center', className)} {...props}>
+    <a class="btn btn-ghost text-xl" href="/">
+      {config.site.title}
+    </a>
+    <ul class="menu menu-horizontal px-1 gap-x-1">
+      <li>
+        <HeaderLink href="/">
+          Blog
+        </HeaderLink>
+      </li>
+      <li>
+        <HeaderLink href="/about">
+          About Me
+        </HeaderLink>
+      </li>
+    </ul>
+</div>

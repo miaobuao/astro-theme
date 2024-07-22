@@ -1,0 +1,28 @@
+---
+import { getCollection } from 'astro:content'
+import HomeLayout from '@/theme/layouts/HomeLayout.astro'
+import { getAllPostsInfo } from '@/theme/lib/post'
+import Footer from '@/theme/components/Footer.astro'
+import PostCard from '@/theme/components/PostCard.astro'
+
+const posts = await getAllPostsInfo(getCollection('blog')).then(
+  posts => posts
+    .filter(p => !!p)
+    .filter(p => p.isDraft === false)
+    .sort((a, b) => {
+      const cmp1 = b!.ctime.valueOf() - a!.ctime.valueOf()
+      if (cmp1 !== 0)
+        return cmp1
+      return b!.mtime.valueOf() - a!.mtime.valueOf()
+    }),
+)
+---
+
+<HomeLayout>
+  <div class="grid gap-y-4 p-2">
+    {
+        posts.map(p => <PostCard info={p}></PostCard>)
+    }
+  </div>
+  <Footer></Footer>
+</HomeLayout>

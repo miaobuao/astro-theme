@@ -1,0 +1,33 @@
+---
+import type { GetStaticPaths } from 'astro'
+import { getCollection } from 'astro:content'
+import { pipe } from 'fp-ts/lib/function'
+import { type IPostInfo, aggreateByTag, getAllPostsInfo } from '@/theme/lib/post'
+import HomeLayout from '@/theme/layouts/HomeLayout.astro'
+
+export interface Props {
+    tag: string
+    posts: IPostInfo[]
+}
+
+export const getStaticPaths = (async () => {
+    const posts = await pipe(
+        'blog',
+        getCollection,
+        getAllPostsInfo,
+    )
+    const tags = aggreateByTag(posts)
+    return Array.from(tags.entries()).map(([tag, posts]) => ({
+        params: { slug: tag },
+        props: { tag, posts },
+    }))
+}) satisfies GetStaticPaths
+
+
+const { tag, posts } = Astro.props
+---
+
+<HomeLayout>
+nothing here
+</HomeLayout>
+

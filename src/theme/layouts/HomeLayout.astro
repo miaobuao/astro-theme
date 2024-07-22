@@ -1,0 +1,44 @@
+---
+import '@/theme/styles/globals.css'
+
+import SpeedInsights from '@vercel/speed-insights/astro'
+import Header from '../components/Header.astro'
+import { getLanguageCode } from '../lib/utils'
+import BaseHead from '@/theme/components/BaseHead.astro'
+import config from '@/consts'
+import DarkModeAdaptor from '@/theme/components/DarkModeAdaptor.astro'
+import AuthorInfo from '@/theme/components/AuthorInfo/AuthorInfo.astro'
+import ScrollArea from '@/theme/components/ScrollArea.astro'
+---
+
+<!doctype html>
+<html lang={getLanguageCode()}>
+  <head>
+    <BaseHead title={config.site.title} description={config.site.description} />
+    <DarkModeAdaptor />
+  </head>
+  <body>
+    <SpeedInsights />
+      <div class="flex flex-col w-screen h-screen">
+        <Header />
+        <div class="flex-1 w-full overflow-y-auto">
+          <div class="hidden h-full w-full md:block">
+            <div class="h-full flex">
+                <ScrollArea class="w-[25%] max-w-[320px] h-full p-2 md:py-4 md:px-8">
+                    <AuthorInfo />
+                </ScrollArea>
+                <ScrollArea class="flex-1 h-full">
+                  <slot />
+                </ScrollArea>
+            </div>
+          </div>
+
+          <div class="md:hidden">
+            <ScrollArea class="flex-1 h-full">
+              <slot />
+            </ScrollArea>
+          </div>
+        </div>
+      </div>
+  </body>
+</html>

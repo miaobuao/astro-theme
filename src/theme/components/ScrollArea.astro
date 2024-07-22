@@ -1,0 +1,13 @@
+---
+import { cn } from '@/theme/lib/utils'
+
+export interface Props {
+    class: string
+}
+
+const { class: className } = Astro.props
+---
+
+<div class={cn('overflow-y-auto', className)}>
+    <slot />
+</div>
