@@ -19,7 +19,7 @@ import config from './src/consts'
 export default defineConfig({
   site: config.site.url,
   vite: {
-    assetsInclude: ['**/*.zip'],
+    assetsInclude: ['**/*.{zip,jpg,jpeg,png,gif,webp,svg,bmp}'],
   },
   prefetch: {
     prefetchAll: true,

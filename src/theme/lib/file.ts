@@ -1,12 +1,26 @@
-import path from 'node:path'
+import { dirname, resolve } from 'node:path'
 import process from 'node:process'
 
-const __dirname = path.resolve(process.cwd(), './src/utils')
-
 export function getMarkdownFilePath(collection: string, id: string) {
-  return path.resolve(__dirname, '../content', collection, id)
+  return resolve(process.cwd(), 'src/content', collection, id)
 }
 
 export function getTagsFromId(id: string) {
-  return path.dirname(id).split('/').map(d => d.trim())
+  return dirname(id).split('/').map(d => d.trim())
 }
+
+export function getPublicFilePath(path: string) {
+  if (path.startsWith('/')) {
+    return resolve(process.cwd(), 'public', `.${path}`)
+  }
+  else {
+    throw new Error('path must start with /')
+  }
+}
+
+// export function getUrl(absPath: string) {
+//   if(!isAbsolute(absPath)) {
+
+//   }
+//   // return relative()
+// }

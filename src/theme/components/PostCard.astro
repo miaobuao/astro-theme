@@ -1,6 +1,5 @@
 ---
 import type { ClassValue } from 'clsx'
-// import { Icon } from 'astro-icon/components'
 import { LinkButton } from './ui/button'
 import { cn } from '@/theme/lib/utils'
 import { type IPostInfo, getTagLink } from '@/theme/lib/post'
@@ -12,6 +11,7 @@ export interface Props {
 }
 
 const { info, className } = Astro.props
+
 ---
 
 <div
@@ -25,7 +25,7 @@ const { info, className } = Astro.props
   info.cover && (
   <figure class="w-full">
     <img
-      src={info.cover}
+      {...info.cover}
       class="w-full max-h-[150px] object-cover"
     />
   </figure>
@@ -141,7 +141,7 @@ const { info, className } = Astro.props
       info.cover && (
         <figure class="w-72">
           <img
-            src={info.cover}
+            {...info.cover}
             class="h-full object-cover  rounded-r-box"
           />
         </figure>

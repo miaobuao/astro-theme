@@ -11,6 +11,13 @@ import { getMarkdownFilePath } from './file'
 
 export type ArticleTag = string | number
 
+interface IImage {
+  src: string
+  width: number
+  height: number
+  format: 'png' | 'jpg' | 'jpeg' | 'tiff' | 'webp' | 'gif' | 'svg' | 'avif'
+}
+
 export interface IPostInfo {
   collection: string
   ctime: Date
@@ -21,7 +28,7 @@ export interface IPostInfo {
   mtime: Date
   tags: ArticleTag[]
   title?: string
-  cover?: string
+  cover?: IImage
   banner?: string
   reading: {
     words: number
